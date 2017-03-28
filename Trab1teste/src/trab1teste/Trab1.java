@@ -1,5 +1,5 @@
 // Trabalho 01 PROGRAMAÇÃO ORIENTADA A OBJETO
-// ALUNO: RAFAEL DE FARIAS LANNES
+// ALUNO: RAFAEL DE FARIAS LANNES         EMAIL:rafael_lannes@id.uff.br
 // PROFESSOR : LEONARDO CRUZ DA COSTA
 // DATA DE ENTREGA 31/03/2017
 //OBS: O programa lê o arquivo com nome "pessoas.txt" que deve se encontrar na pasta raiz do projeto!
@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 //Inicio do código:
@@ -20,22 +21,28 @@ public class Trab1 {
     public static void main(String[] args) {
         //Declarações:
         List lista = new ArrayList();                                           //Cria Array List para armazenar todos os nomes.
-        int opc = 4;                                                            //Variável da opção do Menu.
+        int opc = 0;                                                            //Variável da opção do Menu.
         while (opc != 9) {
-            System.out.println("-=Bem vindo ao Trabalho =-");                   // Menu Principal
-            System.out.println("0- Carregar Arquivo");
-            System.out.println("1- Inserir Nome");
-            System.out.println("2- Exibir Nomes");
-            System.out.println("3- Gravar Nomes");
-            System.out.println("9- Sair");
-            System.out.print("Digite a Opção a seguir:");
-            Scanner teclado = new Scanner(System.in);                           // Criando o objeto teclado
+        System.out.println("-= Bem vindo ao Trabalho =-");                      // Menu Principal
+        System.out.println("0- Carregar Arquivo");
+        System.out.println("1- Inserir Nome");
+        System.out.println("2- Exibir Nomes");
+        System.out.println("3- Gravar Nomes");
+        System.out.println("9- Sair");
+        System.out.print("Digite a Opção a seguir:");
+        Scanner teclado = new Scanner(System.in);                               // Criando o objeto teclado
+        try{                                                                    // Tratamento de erro , se input não for correto o programa fechará.
             opc = teclado.nextInt();                                            // opc recebe entrada do teclado.
+        }                                                                       
+        catch(InputMismatchException error){                                    //Se digitado algo != int , o programa fechará.
+            System.out.println("Entrada Inválida!");
+            System.exit(0);
+        }
             switch (opc) {
                 case 0://Carregar a lista de nome de pessoas:
                     System.out.println("Carregar lista de nomes:");
                     String fileName = "pessoas.txt";                            //fileName recebe nome do arquivo.
-                    String line = null;
+                    String line = null;                                         //Inicia a variável string Line.
                     try {
                         FileReader fileReader = new FileReader(fileName);       //Lê o arquivo com nome em fileName
                         BufferedReader bufferedReader = new BufferedReader(fileReader); // Novo objeto que lê o texto no arquivo em fileName
@@ -47,39 +54,37 @@ public class Trab1 {
                             System.out.println("Nome carregado na posição " + i + " : " + strings[i]);
                         }
                         bufferedReader.close();                                 //Fecha o Arquivo (Aqui , tanto fechando ou não , o arquivo no final é sobscrito evitando assim quaisquer erros.
-                    } 
-                    //Tratamento de erro:
+                    } //Tratamento de erro:
                     catch (FileNotFoundException ex) {
-                        System.out.println("Não foi possível abrir '"+ fileName + "'Por favor, coloque um arquivo com o mesmo nome na pasta raiz do projeto.");
+                        System.out.println("Não foi possível abrir '" + fileName + "'Por favor, coloque um arquivo com o mesmo nome na pasta raiz do projeto.");
                     } 
                     catch (IOException ex) {
                         System.out.println("Erro ao ler o arquivo '" + fileName + "'");
                     }
-                        break;
+                    break;
                 case 1://Inserir um nome de pessoa na lista:
                     System.out.println("Inserir Nome");
                     lista.add(Ler_nome());                                      //Chamada do método Ler_Nome
                     String[] strings = (String[]) lista.toArray(new String[0]); //Converte lista em array.
                     for (int i = 0; i < lista.size(); i++) {                    //Exibe a Lista (Para conferir se está tudo ok)
                         System.out.println("Nome na posição " + i + " : " + strings[i]);
-                        }
+                    }
                     break;
                 case 2:                                                         //Exibe os nomes atualmente na lista.
                     System.out.println("Exibindo Nomes:");
                     Exibir_nome(lista);                                         //Chamada do método Exibir_nome.
                     break;
                 case 3://Gravar Lista de nomes de Pessoas no arquivo.
-                    System.out.println("Gravando Nomes...");                        
+                    System.out.println("Gravando Nomes...");
                     Gravar_lista(lista);                                        //Chamada do método Gravar_lista.
+                    break;
+                case 9:
+                    System.out.println("-= FIM =-");                            //Mensagem que encerra o programa.
                     break;
                 default:
                     System.out.println("Entrada Errada");
-
             }
-        //System.out.print("Digite a Opção a seguir:");                           //Para receber o próximo comando.
-        //opc = teclado.nextInt();
         }
-        System.out.println("FIM");                                              //Mensagem que encerra o programa.
     }
     
     public static void Exibir_nome(List lista) {                                //Método Exibir_nome recebe como parâmetro a lista que foi copiada do arquivo.
@@ -117,6 +122,6 @@ public class Trab1 {
 }
 //Fim do código
 // Trabalho 01 PROGRAMAÇÃO ORIENTADA A OBJETO
-// ALUNO: RAFAEL DE FARIAS LANNES
+// ALUNO: RAFAEL DE FARIAS LANNES           EMAIL:rafael_lannes@id.uff.br
 // PROFESSOR : LEONARDO CRUZ DA COSTA
 // DATA DE ENTREGA 31/03/2017
